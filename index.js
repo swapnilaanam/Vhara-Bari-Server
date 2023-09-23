@@ -366,6 +366,17 @@ async function run() {
 
 
         // payments route
+        app.get('/payments/owner/:email', verifyJWT, verifyOwner, async (req, res) => {
+            const { email } = req.params;
+
+            const query = {
+                ownerEmail: email
+            };
+
+            const result = await paymentCollection.find(query).toArray();
+            res.send(result);
+        });
+
         app.get('/payments/:email', verifyJWT, verifyTenant, async (req, res) => {
             const { email } = req.params;
 
